@@ -256,22 +256,7 @@ const Masonry = ({
               className="item-img relative w-full h-full"
               style={{ backgroundImage: `url(${item.img})` }}
             >
-              {/* Subtle dark-to-transparent gradient vignette at the bottom */}
-              <div className="absolute inset-0 bg-gradient-to-t from-studioBlack/95 via-studioBlack/25 to-transparent opacity-80 group-hover:opacity-50 transition-opacity duration-500" />
-
-              {/* Captions - Cinematic Reveal */}
-              <div className="absolute bottom-6 left-6 right-6 flex flex-col md:bottom-8 md:left-8 md:right-8 transition-all duration-500 z-10 pointer-events-none">
-                {item.subtitle && (
-                  <span className="text-[10px] uppercase tracking-[0.25em] text-warmGold mb-1.5 font-semibold transform translate-y-2 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-500">
-                    {item.subtitle}
-                  </span>
-                )}
-                {item.title && (
-                  <h3 className="font-serif italic text-2xl md:text-3xl text-softCream tracking-wide transform translate-y-1 group-hover:translate-y-0 transition-transform duration-500">
-                    {item.title}
-                  </h3>
-                )}
-              </div>
+              {/* Subtle overlay is optional; keeping images clean and visual */}
 
               {colorShiftOnHover && (
                 <div
