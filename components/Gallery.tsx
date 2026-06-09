@@ -16,7 +16,7 @@ const PHOTOS: Photo[] = [
   {
     id: 1,
     src: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&q=80&w=800",
-    title: "The Rajput Saree",
+    title: "The Saree",
     category: "portraits",
     subtitle: "Heritage Portraiture, Jaipur",
     aspectClass: "md:col-span-2 h-[550px]",
@@ -32,7 +32,7 @@ const PHOTOS: Photo[] = [
   {
     id: 3,
     src: "https://images.unsplash.com/photo-1590050752117-238cb0fb12b1?auto=format&fit=crop&q=80&w=800",
-    title: "The Varanasi Diya",
+    title: "The Serene Nature",
     category: "events",
     subtitle: "Ghats of Varanasi",
     aspectClass: "md:col-span-1 h-[450px]",
@@ -40,7 +40,7 @@ const PHOTOS: Photo[] = [
   {
     id: 4,
     src: "https://images.unsplash.com/photo-1621184455862-c163dfb30e0f?auto=format&fit=crop&q=80&w=800",
-    title: "Imperial Sherwani",
+    title: "Imperials",
     category: "portraits",
     subtitle: "Bespoke Royal Study",
     aspectClass: "md:col-span-1 h-[550px]",
@@ -48,7 +48,7 @@ const PHOTOS: Photo[] = [
   {
     id: 5,
     src: "https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&q=80&w=800",
-    title: "The Baraat Waltz",
+    title: "The Waltz",
     category: "weddings",
     subtitle: "Palace Courtyard, Jodhpur",
     aspectClass: "md:col-span-2 h-[500px]",
@@ -113,9 +113,8 @@ export default function Gallery() {
             className="relative px-4 py-2 text-xs md:text-sm tracking-[0.2em] uppercase transition-colors duration-300 font-medium"
           >
             <span
-              className={`relative z-10 transition-colors duration-300 ${
-                activeCategory === category ? "text-warmGold" : "text-softCream/60 hover:text-softCream"
-              }`}
+              className={`relative z-10 transition-colors duration-300 ${activeCategory === category ? "text-warmGold" : "text-softCream/60 hover:text-softCream"
+                }`}
             >
               {category}
             </span>
