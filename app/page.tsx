@@ -1,6 +1,5 @@
 import React from "react";
 import Navbar from "@/components/Navbar";
-import Masonry, { MasonryItem } from "@/components/Masonry";
 import BookSessionForm from "@/components/BookSessionForm";
 import RevealSection from "@/components/RevealSection";
 import { ArrowDown, Calendar, Clock, Image as ImageIcon, MapPin, Mail, Compass } from "lucide-react";
@@ -21,57 +20,6 @@ const Instagram = (props: React.SVGProps<SVGSVGElement>) => (
     <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
   </svg>
 );
-
-const ARCHIVE_PHOTOS: MasonryItem[] = [
-  {
-    id: "1",
-    img: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&q=80&w=800",
-    url: "#book",
-    height: 450,
-    title: "The Saree",
-    subtitle: "Heritage Portraiture",
-  },
-  {
-    id: "2",
-    img: "https://images.unsplash.com/photo-1607190074257-dd4b7af0309f?auto=format&fit=crop&q=80&w=800",
-    url: "#book",
-    height: 600,
-    title: "Lake Palace Unions",
-    subtitle: "Udaipur, Rajasthan",
-  },
-  {
-    id: "3",
-    img: "https://images.unsplash.com/photo-1590050752117-238cb0fb12b1?auto=format&fit=crop&q=80&w=800",
-    url: "#book",
-    height: 400,
-    title: "The Serene Nature",
-    subtitle: "Ghats of Varanasi",
-  },
-  {
-    id: "4",
-    img: "https://images.unsplash.com/photo-1621184455862-c163dfb30e0f?auto=format&fit=crop&q=80&w=800",
-    url: "#book",
-    height: 500,
-    title: "Imperials",
-    subtitle: "Bespoke Royal Study",
-  },
-  {
-    id: "5",
-    img: "https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&q=80&w=800",
-    url: "#book",
-    height: 550,
-    title: "The Waltz",
-    subtitle: "Palace Courtyard",
-  },
-  {
-    id: "6",
-    img: "https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&q=80&w=800",
-    url: "#book",
-    height: 450,
-    title: "Heritage Architecture",
-    subtitle: "Palace Grounds, Agra",
-  },
-];
 
 export const dynamic = "force-dynamic";
 
@@ -120,9 +68,9 @@ export default function Home() {
 
           <RevealSection delay={0.8} yOffset={20}>
             <a
-              href="#portfolio"
+              href="#about"
               className="inline-flex items-center justify-center w-12 h-12 rounded-full border border-warmGold/30 hover:border-warmGold text-warmGold bg-[#0a0a0a]/50 backdrop-blur-sm transition-all duration-500 hover:scale-110 group"
-              aria-label="Scroll to Portfolio"
+              aria-label="Scroll to About"
             >
               <ArrowDown className="w-4 h-4 transition-transform duration-500 group-hover:translate-y-1" />
             </a>
@@ -136,42 +84,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SECTION B: PORTFOLIO GALLERY (GSAP MASONRY) */}
-      <section id="portfolio" className="py-24 md:py-36 px-6 md:px-12 max-w-7xl mx-auto relative">
-        <div className="absolute -left-20 top-40 w-80 h-80 rounded-full bg-warmGold/5 blur-[120px] pointer-events-none" />
 
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 md:mb-28 gap-6">
-          <RevealSection yOffset={35}>
-            <span className="text-xs tracking-[0.3em] uppercase text-warmGold mb-3 block font-medium">
-              The Captured Chronicles
-            </span>
-            <h2 className="font-serif italic text-4xl md:text-6xl text-softCream font-light">
-              Visual Archive
-            </h2>
-          </RevealSection>
-
-          <RevealSection delay={0.2} yOffset={20}>
-            <p className="text-sm text-softCream/50 max-w-md leading-relaxed font-light">
-              A dynamically rendered, living archive of our finest frames. Built on organic reflows and cinematic reveals to let each story breathe.
-            </p>
-          </RevealSection>
-        </div>
-
-        {/* GSAP Masonry Grid */}
-        <RevealSection delay={0.2} yOffset={30}>
-          <Masonry
-            items={ARCHIVE_PHOTOS}
-            ease="power3.out"
-            duration={0.6}
-            stagger={0.05}
-            animateFrom="bottom"
-            scaleOnHover={true}
-            hoverScale={0.96}
-            blurToFocus={true}
-            colorShiftOnHover={true}
-          />
-        </RevealSection>
-      </section>
 
       {/* SECTION C: ABOUT */}
       <section id="about" className="py-24 md:py-36 bg-[#0c0c0c] border-y border-white/[0.02] relative overflow-hidden">

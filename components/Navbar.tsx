@@ -21,11 +21,11 @@ export default function Navbar() {
   }, []);
 
   const navLinks = [
-    { name: "Home", href: "#home" },
-    { name: "Portfolio", href: "#portfolio" },
-    { name: "About", href: "#about" },
-    { name: "Services", href: "#services" },
-    { name: "Book", href: "#book" },
+    { name: "Home", href: "/#home" },
+    { name: "Portfolio", href: "/archive" },
+    { name: "About", href: "/#about" },
+    { name: "Services", href: "/#services" },
+    { name: "Book", href: "/#book" },
   ];
 
   return (
@@ -57,7 +57,7 @@ export default function Navbar() {
             </a>
           ))}
           <a
-            href="#book"
+            href="/#book"
             className="px-5 py-2 text-xs tracking-widest uppercase border border-warmGold/35 hover:border-warmGold text-softCream hover:text-studioBlack bg-transparent hover:bg-warmGold transition-all duration-500 font-medium rounded-sm"
           >
             Inquire
@@ -95,7 +95,7 @@ export default function Navbar() {
               </a>
             ))}
             <a
-              href="#book"
+              href="/#book"
               onClick={() => setIsOpen(false)}
               className="px-8 py-3 text-sm tracking-widest uppercase border border-warmGold text-warmGold hover:bg-warmGold hover:text-studioBlack transition-colors duration-300 rounded-sm w-4/5 text-center mt-2"
             >
