@@ -7,27 +7,6 @@ import "./Masonry.css";
 // Safe useLayoutEffect for SSR environments
 const useIsomorphicLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
-// Custom useMedia hook
-const useMedia = <T,>(queries: string[], values: T[], defaultValue: T): T => {
-  const get = () => {
-    if (typeof window === "undefined") return defaultValue;
-    const index = queries.findIndex((q) => window.matchMedia(q).matches);
-    return values[index] ?? defaultValue;
-  };
-
-  const [value, setValue] = useState<T>(defaultValue);
-
-  useEffect(() => {
-    setValue(get());
-    const handler = () => setValue(get());
-    queries.forEach((q) => window.matchMedia(q).addEventListener("change", handler));
-    return () => queries.forEach((q) => window.matchMedia(q).removeEventListener("change", handler));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [queries]);
-
-  return value;
-};
-
 // Custom useMeasure hook
 const useMeasure = (): [React.RefObject<HTMLDivElement>, { width: number; height: number }] => {
   const ref = useRef<HTMLDivElement>(null);
@@ -100,12 +79,6 @@ const Masonry = ({
   blurToFocus = true,
   colorShiftOnHover = false,
 }: MasonryProps) => {
-  const columns = useMedia(
-    ["(min-width:1500px)", "(min-width:1000px)", "(min-width:600px)", "(min-width:400px)"],
-    [4, 3, 2, 1], // tailored grid columns count for photography layout
-    1
-  );
-
   const [containerRef, { width }] = useMeasure();
   const [imagesReady, setImagesReady] = useState(false);
 
@@ -146,20 +119,27 @@ const Masonry = ({
   const grid = useMemo(() => {
     if (!width) return [];
 
-    const colHeights = new Array(columns).fill(0);
-    const columnWidth = width / columns;
+    const isMobile = width < 348;
+    const columnWidth = isMobile ? width : 324; // 300px image width + 24px padding (12px each side)
+    const columnsCount = isMobile ? 1 : Math.max(1, Math.floor(width / columnWidth));
+    const leftOffset = isMobile ? 0 : (width - columnsCount * columnWidth) / 2;
+
+    const colHeights = new Array(columnsCount).fill(0);
 
     return items.map((child) => {
       const col = colHeights.indexOf(Math.min(...colHeights));
-      const x = columnWidth * col;
-      const height = child.height;
+      const x = leftOffset + columnWidth * col;
+      
+      const scaledHeight = isMobile
+        ? Math.round((child.height * (columnWidth - 24)) / 300)
+        : child.height;
+
       const y = colHeights[col];
+      colHeights[col] += scaledHeight;
 
-      colHeights[col] += height;
-
-      return { ...child, x, y, w: columnWidth, h: height };
+      return { ...child, x, y, w: columnWidth, h: scaledHeight };
     });
-  }, [columns, items, width]);
+  }, [items, width]);
 
   // Dynamically calculate container height to prevent layout overlapping
   const containerHeight = useMemo(() => {

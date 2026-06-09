@@ -1,12 +1,11 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Masonry, { MasonryItem } from "@/components/Masonry";
 import RevealSection from "@/components/RevealSection";
 
-
-const ARCHIVE_PHOTOS: MasonryItem[] = [
+const DEFAULT_ARCHIVE_PHOTOS: MasonryItem[] = [
   {
     id: "1",
     img: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&q=80&w=800",
@@ -58,6 +57,71 @@ const ARCHIVE_PHOTOS: MasonryItem[] = [
 ];
 
 export default function ArchivePage() {
+  const [items, setItems] = useState<MasonryItem[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchPortfolioImages = async () => {
+      try {
+        const res = await fetch("/api/portfolio");
+        const data = await res.json();
+        const images: string[] = data.images || [];
+
+        if (images.length === 0) {
+          setItems(DEFAULT_ARCHIVE_PHOTOS);
+          setLoading(false);
+          return;
+        }
+
+        // Measure images dynamically to get heights for 300px width
+        const measuredItems = await Promise.all(
+          images.map((src, index) => {
+            return new Promise<MasonryItem>((resolve) => {
+              const img = new window.Image();
+              img.src = src;
+              img.onload = () => {
+                const height = Math.round((img.naturalHeight * 300) / img.naturalWidth);
+                const filename = src.split("/").pop() || "";
+                const titleWithoutExt = filename.substring(0, filename.lastIndexOf("."));
+                const formattedTitle = titleWithoutExt
+                  .replace(/[_-]/g, " ")
+                  .replace(/\b\w/g, (char) => char.toUpperCase());
+
+                resolve({
+                  id: `dynamic-${index}`,
+                  img: src,
+                  url: src,
+                  height: height,
+                  title: formattedTitle || "Heritage Image",
+                  subtitle: "Visual Archive",
+                });
+              };
+              img.onerror = () => {
+                resolve({
+                  id: `dynamic-${index}`,
+                  img: src,
+                  url: src,
+                  height: 450, // default fallback
+                  title: "Heritage Image",
+                  subtitle: "Visual Archive",
+                });
+              };
+            });
+          })
+        );
+
+        setItems(measuredItems);
+      } catch (err) {
+        console.error("Error loading portfolio folder images:", err);
+        setItems(DEFAULT_ARCHIVE_PHOTOS);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPortfolioImages();
+  }, []);
+
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-[#f5ebe0] selection:bg-[#c59b27] selection:text-[#0a0a0a] flex flex-col justify-between">
       {/* Navigation */}
@@ -88,17 +152,25 @@ export default function ArchivePage() {
 
         {/* GSAP Masonry Grid */}
         <RevealSection delay={0.2} yOffset={30}>
-          <Masonry
-            items={ARCHIVE_PHOTOS}
-            ease="power3.out"
-            duration={0.6}
-            stagger={0.05}
-            animateFrom="bottom"
-            scaleOnHover={true}
-            hoverScale={0.96}
-            blurToFocus={true}
-            colorShiftOnHover={true}
-          />
+          {loading ? (
+            <div className="flex items-center justify-center min-h-[400px]">
+              <span className="font-serif italic text-xl text-warmGold animate-pulse">
+                Summoning the Visual Archive...
+              </span>
+            </div>
+          ) : (
+            <Masonry
+              items={items}
+              ease="power3.out"
+              duration={0.6}
+              stagger={0.05}
+              animateFrom="bottom"
+              scaleOnHover={true}
+              hoverScale={0.96}
+              blurToFocus={true}
+              colorShiftOnHover={true}
+            />
+          )}
         </RevealSection>
       </main>
 
